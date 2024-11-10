@@ -1,0 +1,93 @@
+# The MySQL database server configuration file.
+#
+# One can use all long options that the program supports.
+# Run program with --help to get a list of available options and with
+# --print-defaults to see which it would actually understand and use.
+#
+# For explanations see
+# http://dev.mysql.com/doc/mysql/en/server-system-variables.html
+
+# Here is entries for some specific programs
+# The following values assume you have at least 32M ram
+
+[mysqld]
+#
+# * Basic Settings
+#
+user		= mysql
+# pid-file	= /var/run/mysqld/mysqld.pid
+# socket	= /var/run/mysqld/mysqld.sock
+# port		= 3306
+# datadir	= /var/lib/mysql
+
+# If MySQL is running as a replication slave, this should be
+# changed. Ref https://dev.mysql.com/doc/refman/8.0/en/server-system-variables.html#sysvar_tmpdir
+# tmpdir		= /tmp
+
+# Instead of skip-networking the default is now to listen only on
+# localhost which is more compatible and is not less secure.
+bind-address		= 0.0.0.0
+mysqlx-bind-address	= 127.0.0.1
+
+#
+# * Fine Tuning
+#
+key_buffer_size		= 16M
+max_allowed_packet	= 64M
+thread_stack		= 256K
+thread_cache_size    = 50
+
+# This replaces the startup script and checks MyISAM tables if needed
+# the first time they are touched
+myisam-recover-options  = BACKUP
+
+# Connection settings
+max_connections        = 1000000
+wait_timeout           = 28800
+interactive_timeout    = 28800000
+
+# InnoDB Settings
+innodb_buffer_pool_size = 50G
+innodb_log_buffer_size = 32M
+innodb_log_file_size = 512M
+innodb_flush_log_at_trx_commit = 1
+innodb_flush_method = O_DIRECT
+innodb_file_per_table = 1
+innodb_buffer_pool_instances = 50
+
+# Table cache settings
+table_open_cache       = 4000
+table_definition_cache = 4096
+
+# Slow query log settings
+# Be aware that this log type is a performance killer.
+# general_log_file        = /var/log/mysql/query.log
+# general_log             = 1
+log_error = /var/log/mysql/error.log
+
+# Slow query log settings
+slow_query_log		= 1
+slow_query_log_file	= /var/log/mysql/mysql-slow.log
+long_query_time = 2
+log-queries-not-using-indexes
+
+# Logging and Replication
+# The following can be used as easy to replay backup logs or for replication.
+# note: if you are setting up a replication slave, see README.Debian about
+#       other settings you may need to change.
+# server-id		= 1
+log_bin			= /var/log/mysql/mysql-bin.log
+max_binlog_size   = 100M
+binlog_expire_logs_seconds	= 2592000
+
+# Tuning temporary tables
+tmp_table_size = 64M
+max_heap_table_size = 64M
+
+# Buffer settings for large queries
+sort_buffer_size = 4M
+read_buffer_size = 2M
+join_buffer_size = 8M
+
+# Performance schema (can be enabled or disabled depending on your need)
+performance_schema = ON
